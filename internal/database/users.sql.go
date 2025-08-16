@@ -15,7 +15,7 @@ import (
 const createUser = `-- name: CreateUser :one
 insert into users (id, created_at, updated_at, name) values (
     $1, $2, $3, $4
-) returning id, created_at, updated_at, name
+) on conflict (name) do nothing returning id, created_at, updated_at, name
 `
 
 type CreateUserParams struct {
@@ -43,7 +43,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 }
 
 const deleteAll = `-- name: DeleteAll :exec
-truncate users
+truncate users restart identity cascade
 `
 
 func (q *Queries) DeleteAll(ctx context.Context) error {

@@ -36,6 +36,14 @@ func (c *Commands) Register(name string, f func(*State, Command) error) {
 	c.cmds[name] = f
 }
 
+func (c *Commands) CheckCommand(name string) bool {
+	if _, ok := c.cmds[name]; !ok {
+		return false
+	}
+
+	return true
+}
+
 func NewState() State {
 	cfg, err := config.Read()
 

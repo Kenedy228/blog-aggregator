@@ -25,6 +25,18 @@ func (c Config) SetUser(username string) error {
 	return nil
 }
 
+func (c Config) DeleteUser() error {
+	c.Username = ""
+
+	err := write(c)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (c Config) String() string {
 	return fmt.Sprintf("{\n\tDBurl: %v\n\tUsername: %v\n}", c.DBurl, c.Username)
 }
